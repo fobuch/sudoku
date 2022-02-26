@@ -55,3 +55,18 @@ table{
     height: 900px;
     background-color: deepskyblue;
 }
+
+.numpad {
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Comic Sans MS';
+    border: 2.5px black solid;
+    box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.3), inset 9px 9px 9px rgba(255, 255, 255, 0.2);
+    user-select: none;
+}
+
+    .numpad:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.4), inset 9px 9px 9px rgba(255, 255, 255, 0.45);
+    }
