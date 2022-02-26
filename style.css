@@ -16,7 +16,7 @@ table{
 }
 
 #game{
-    background-color: rgb(210, 255, 192);
+    background-color: rgb(255, 255, 255);
     height: min-content;
     display: flex;
 }

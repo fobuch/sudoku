@@ -1,16 +1,15 @@
 let board = createBoard();
-//console.log(howManyDivides(9,9));
 
 const cellMini = document.querySelectorAll('.cell-mini');
 const numpad = document.querySelectorAll('.numpad');
 
-let activeCell = 40;
+let activeCell = 0;
 activeCellBackground(activeCell, true);
 
 cellMini.forEach(cell => {
     cell.addEventListener('click', () => {
         let id = parseInt(cell.id.slice(1));
-        //document.getElementById('c'+activeCell).style.backgroundColor = '';
+        
         activeCellBackground(activeCell, false);
         activeCell = id;
         activeCellBackground(activeCell, true);
@@ -18,12 +17,26 @@ cellMini.forEach(cell => {
 });
 
 numpad.forEach(num => {
-    num.addEventListener('click', function handleClick(event) {
+    num.addEventListener('click', () => {
         let numId = parseInt(num.id.slice(11));
         document.getElementById('c' + activeCell).innerText = numId;
         board[activeCell] = numId;
     });
 });
+
+document.addEventListener('keydown', function handleKeyPress(event) {
+    if(Number(event.key) > 0 && Number(event.key) <= 9){
+        document.getElementById('c'+activeCell).innerText = event.key;
+        board[activeCell] = Number(event.key);
+        console.log(board);
+    }else if(event.key == 'Backspace'){
+        document.getElementById('c'+activeCell).innerText = '';
+        board[activeCell] = 0;
+        console.log(board);
+    }
+});
+
+
 
 function createBoard(){
     let returnBoard = [];
@@ -35,7 +48,7 @@ function createBoard(){
 
 function activeCellBackground(cellId, option){
     let color = '';
-    if(option) color = 'lightgray';
+    if(option) color = 'rgb(225, 225, 225)';
 
     let cellIdCopy = cellId;
     while(cellIdCopy <= 80){
@@ -56,12 +69,11 @@ function activeCellBackground(cellId, option){
     for(let j = cellId - (howManyDivides(cellId,9) % 3) * 9; j < (cellId - (howManyDivides(cellId,9) % 3) * 9) + 27; j += 9){
         for(let i = j - (j % 3); i < j - (j % 3) +3; i++){
             document.getElementById('c'+i).style.backgroundColor = color;
-            console.log(i);
         }
     }
 
     if(option){
-        document.getElementById('c' + cellId).style.backgroundColor = 'gray';
+        document.getElementById('c' + cellId).style.backgroundColor = 'rgb(165, 165, 165)';
     }else{
         document.getElementById('c' + cellId).style.backgroundColor = '';
     }
