@@ -1,4 +1,6 @@
 let board = createBoard();
+console.log(board);
+let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const cellMini = document.querySelectorAll('.cell-mini');
 const numpad = document.querySelectorAll('.numpad');
@@ -103,17 +105,102 @@ function howManyDivides(number, divider){
 function solveBoard(){
 
 }
-
+let counter = 0;
 function fillBoard(){
-    let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    for(let i = 0; i < 9; i++){
-        line = lineShuffle(line);
-        board[i] = line;
+    //let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    
+    for(let i = 0; i < 3; i++){ // 3 na 9
+        let columns = false;
+        while(!columns){
+            line = lineShuffle(line);
+
+            board = board.slice(0, i*9).concat(line, board.slice(i*9+9));
+
+            columns = checkColumns();
+            counter++;
+            console.log(counter);
+        }
+
     }
     //lineShuffle(line);
-    console.log(board);
+    //console.log(board);
+    
 }
-fillBoard();
+//fillBoard();
+fill3diagonal();
+//console.log(board);
+setCells();
+console.log(getColumn(0));
+console.log(getLine(0));
+console.log(getBigCell(9));
+
+
+
+
+function checkColumns(){
+    //let repeats = true;
+    for(let i = 0; i < 9; i++){
+        let column = getColumn(i);
+
+        if(column.indexOf(0) != -1){
+            column = column.slice(0, column.indexOf(0));
+        }
+
+        let inColumn = [];
+        for(let j = 0; j < column.length; j++){
+            if(inColumn.indexOf(column[j]) >= 0) return false;
+            else inColumn.push(column[j]);
+        }
+
+        // for(let i = 1; i <= 9; i++){
+        //     if(column.indexOf(i) == -1){
+        //         repeats = false;
+        //         break;
+        //     }
+        // }
+    }
+    return true;
+    
+}
+
+function getColumn(columnNo){
+    let returnColumn = [];
+    for(let i = 0; i < 9; i++){
+        returnColumn[i] = board[columnNo + i * 9];
+    }
+    return returnColumn ;
+}
+
+function getLine(lineNo){
+    let returnLine = [];
+    for(let i = 0; i < 9; i++){
+        returnLine[i] = board[i + lineNo * 9];
+    }
+    return returnLine;
+}
+
+function getBigCell(bigCellNo){
+    let returnBigCell = [];
+    let counter = 0;
+    for(let j = 0; j < 3; j++){
+        for(let i = 0; i < 3; i++){
+            returnBigCell[counter] = board[i + (3 * (bigCellNo%3 - 1)) + j*9 + howManyDivides(bigCellNo-1,3)*27]; // ta minus jedynka
+            counter++
+            console.log(i + (3 * (bigCellNo%3 - 1)) + j*9 + howManyDivides(bigCellNo-1,3)*27);
+        }
+    }
+    
+    return returnBigCell;
+
+    for(let j = howManyDivides(bigCellNo) * 27; j < 3 + howManyDivides(bigCellNo) * 27; j++){
+        for(let i = (bigCellNo%3 - 1) * 3; i < 3 + (bigCellNo%3 - 1) * 3; i++){
+            returnBigCell[counter] = board[i + j*9];
+            counter++;
+            console.log(i + j*9);
+        }
+    }
+
+}
 
 function lineShuffle(line){
     let lineCopy = line;
@@ -131,3 +218,24 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
+
+
+function setCells(){
+    for(let i = 0; i < 81; i++){
+        document.getElementById('c'+i).innerText = board[i];
+    }
+}
+
+function fill3diagonal(){
+    for(let k = 0; k < 3; k++){
+        let linec = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let lineCopy = linec;
+        lineCopy = lineShuffle(lineCopy);
+        for(let j = 0+k*30; j < 27+k*30; j += 9){
+            for(let i = 0; i < 3; i++){
+                board[j+i] = lineCopy[0];
+                lineCopy.splice(0,1);
+            }
+        }
+    }
+}
