@@ -45,6 +45,26 @@ document.addEventListener('keydown', function handleKeyPress(event) {
     }
 });
 
+function timer(){
+    var minutes=0;
+    var seconds=0;
+if(btimer){
+    var timer = setInterval(function() {
+        
+        seconds++;
+        if(seconds>59){
+            seconds=0;
+            minutes++;
+        }
+    
+        if(seconds <10){
+            document.getElementById("timer").innerHTML = minutes + ":0"+ seconds;
+        }else{
+            document.getElementById("timer").innerHTML = minutes + ":"+ seconds;
+        }
+    }, 1000);
+}
+}
 
 
 function createBoard(){
