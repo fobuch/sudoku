@@ -4,10 +4,15 @@ const cellMini = document.querySelectorAll('.cell-mini');
 const numpad = document.querySelectorAll('.numpad');
 
 let activeCell = 0;
+let btimer = false;
 activeCellBackground(activeCell, true);
 
 cellMini.forEach(cell => {
     cell.addEventListener('click', () => {
+        if(!btimer){
+            btimer = true;
+            timer();
+        }
         let id = parseInt(cell.id.slice(1));
         
         activeCellBackground(activeCell, false);
@@ -44,6 +49,31 @@ document.addEventListener('keydown', function handleKeyPress(event) {
 });
 
 
+
+
+
+function timer(){
+        var minutes=0;
+        var seconds=0;
+
+
+    if(btimer){
+        var timer = setInterval(function() {
+            
+            seconds++;
+            if(seconds>59){
+                seconds=0;
+                minutes++;
+            }
+        
+            if(seconds <10){
+                document.getElementById("timer").innerHTML = minutes + ":0"+ seconds;
+            }else{
+                document.getElementById("timer").innerHTML = minutes + ":"+ seconds;
+            }
+        }, 1000);
+    }
+}
 
 function createBoard(){
     let returnBoard = [];
@@ -99,3 +129,4 @@ function howManyDivides(number, divider){
 
     return counter;
 }
+

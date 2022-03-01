@@ -6,22 +6,25 @@
 #all{
     width: 100vw;
     height: 100vw;
-    background-color: pink;
+    background-color: rgb(211, 202, 202);
     display: flex;
-    justify-content: center;
+    
     padding: 50px;
+    flex-direction: column;
 }
 table{
     border-collapse:collapse;
 }
 
 #game{
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(211, 202, 202);
     height: min-content;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 #board{
+    background-color: white;
     width: 900px;
     height: 900px;
     border: 2px solid black;
@@ -49,45 +52,81 @@ table{
     height: 100%;
     border: 1px solid black;
     text-align: center;
-
+    background-color: white;
     font-size: 50px;
 }
 
 
 #numpad {
     width: 550px;
-    height: 750px;
+    height: 900px;
+    margin-left: 2.5%;
+}
+
+table, tr, td{
+    border: 1px black solid;
 }
 
 .numpad {
     text-align: center;
-    font-size: 175%;
+    font-size: 250%;
     font-family: 'Comic Sans MS';
-    border: 2.5px black solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.3), inset 9px 9px 9px rgba(255, 255, 255, 0.2);
     user-select: none;
-    width: 138px;
-    background-color: deepskyblue;
+    width: 90%;
+    height: 90%;
+    /*background-color: rgb(173, 255, 221);*/
+    background-color: rgb(173, 255, 221);
+    border-radius: 30%;
+    border: 2px solid black;
 }
 
+#numpad-cell0, #newGame{
+    width: 96.5%;
+    height: 50%;
+    padding-bottom: 3%;
+    padding-top: 3%;
+    border-radius: 50px;
+    box-shadow: inset -5px -5px 8px rgba(45, 0, 45, 0.3), inset 9px 5px 9px rgba(255, 255, 255, 0.2);
+}
+
+
+
 .numpad:hover {
-    background-color: #39cdff;
+    background-color: #c8ffdd;
     cursor: pointer;
     box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.4), inset 9px 9px 9px rgba(255, 255, 255, 0.45);
 }
 
     .numpad:active {
         background-color: rgba(0, 0, 0, 0.1);
-        background-color: #1babff;
+        background-color: #94f1d2;
         cursor: pointer;
         box-shadow: inset 5px 9px 8px rgba(45, 0, 45, 0.4), inset -5px -9px 8px rgba(45, 0, 45, 0.4);
     }
 
 #diff {
     user-select: none;
+    display: flex;
+    justify-content: center;
+    font-size: 175%;
+    margin-bottom: 2%;
+}
+
+#timer {
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    font-size: 175%;
+    margin-bottom: 2%;
 }
 
 select {
+    margin-left: 0.35%;
     appearance: none;
     background-color: transparent;
     border: none;
@@ -100,3 +139,23 @@ select {
 select:hover {
     cursor: pointer;
 }
+
+html{
+    background-color: rgb(211, 202, 202);
+}
+
+
+@media only screen and (max-width:1400px) {
+    #all{
+        align-items: baseline;
+    }
+    #game {
+
+        flex-direction: column;
+        align-content: flex-end;
+        
+    }
+    #numpad {
+        margin-top: 5%;
+    }
+  }

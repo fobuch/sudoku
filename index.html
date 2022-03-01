@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    
+    <script src="https://kit.fontawesome.com/267ca019f0.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div id="all">
@@ -19,28 +20,34 @@
                 <option>Hard</option>
             </select>
         </div>
+        <div id="timer">
+            0:00
+        </div>
         <div id="game">
             <table id="board">
             </table>
 
             <table id="numpad">
                 <tr>
-                    <td></td><td id="numpad-cell0" class="numpad" colspan="2"><-</td>
+                    <td colspan="3" ><div id="newGame" class="numpad">Nowa Gra</div></td>
                 </tr>
                 <tr>
-                    <td id="numpad-cell1" class="numpad">1</td>
-                    <td id="numpad-cell2" class="numpad">2</td>
-                    <td id="numpad-cell3" class="numpad">3</td>
+                    <td colspan="3" ><div id="numpad-cell0" class="numpad"><i class="fa-solid fa-eraser"></i></div></td>
+                </tr>
+                <tr><!-- dodać divy do reszty tabeli-->
+                    <td><div id="numpad-cell1" class="numpad">1</div></td>
+                    <td><div id="numpad-cell2" class="numpad">2</div></td>
+                    <td><div id="numpad-cell3" class="numpad">3</div></td>
                 </tr>
                 <tr>
-                    <td id="numpad-cell4" class="numpad">4</td>
-                    <td id="numpad-cell5" class="numpad">5</td>
-                    <td id="numpad-cell6" class="numpad">6</td>
+                    <td><div id="numpad-cell4" class="numpad">4</div></td>
+                    <td><div id="numpad-cell5" class="numpad">5</div></td>
+                    <td><div id="numpad-cell6" class="numpad">6</div></td>
                 </tr>
                 <tr>
-                    <td id="numpad-cell7" class="numpad">7</td>
-                    <td id="numpad-cell8" class="numpad">8</td>
-                    <td id="numpad-cell9" class="numpad">9</td>
+                    <td><div id="numpad-cell7" class="numpad">7</div></td>
+                    <td><div id="numpad-cell8" class="numpad">8</div></td>
+                    <td><div id="numpad-cell9" class="numpad">9</div></td>
                 </tr>
             </table>
         </div>
