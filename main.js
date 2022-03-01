@@ -98,9 +98,6 @@ function howManyDivides(number, divider){
     }
 
     return counter;
-<<<<<<< Updated upstream
-}
-=======
 }
 
 function solveBoard(){
@@ -134,4 +131,3 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
->>>>>>> Stashed changes
