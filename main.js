@@ -15,6 +15,7 @@ cellMini.forEach(cell => {
         activeCellBackground(activeCell, false);
         activeCell = id;
         activeCellBackground(activeCell, true);
+        console.log(activeCell);
       });
 });
 
@@ -146,41 +147,48 @@ function fillBoard(){
     //console.log(board);
     
 }
-//fillBoard();
-fill3diagonal();
-//console.log(board);
-setCells();
-console.log(getColumn(0));
-console.log(getLine(0));
-console.log(getBigCell(9));
 
 
 
 
-function checkColumns(){
-    //let repeats = true;
-    for(let i = 0; i < 9; i++){
-        let column = getColumn(i);
 
-        if(column.indexOf(0) != -1){
-            column = column.slice(0, column.indexOf(0));
+function checkAll(cellMiniNo){
+    let columnNo = cellMiniNo%9;
+    let lineNo = howManyDivides(cellMiniNo,9);
+    let bigCellNo = howManyDivides(columnNo,3) * howManyDivides(lineNo,27);
+    console.log(bigCellNo);
+    if(checkColumnLineCell(getLine(lineNo)) 
+        && checkColumnLineCell(getColumn(columnNo)) 
+        && checkColumnLineCell(getBigCell(bigCellNo))){
+            return true;
         }
-
-        let inColumn = [];
-        for(let j = 0; j < column.length; j++){
-            if(inColumn.indexOf(column[j]) >= 0) return false;
-            else inColumn.push(column[j]);
-        }
-
-        // for(let i = 1; i <= 9; i++){
-        //     if(column.indexOf(i) == -1){
-        //         repeats = false;
-        //         break;
-        //     }
-        // }
+    else{
+        console.log('---');
+        console.log(getLine(lineNo));
+        console.log(getColumn(columnNo));
+        console.log(getBigCell(bigCellNo));
+        console.log(checkColumnLineCell(getLine(lineNo)));
+        console.log(checkColumnLineCell(getLine(columnNo)));
+        console.log(checkColumnLineCell(getLine(bigCellNo)));
+        return false;
     }
-    return true;
+}
+
+function checkColumnLineCell(entity){
     
+    let entityCopy = entity;
+
+    if(entityCopy.indexOf(0) != -1){
+        entityCopy = entityCopy.slice(0, entityCopy.indexOf(0));
+    }
+
+    let inEntity = [];
+    for(let j = 0; j < entity.length; j++){
+        if(inEntity.indexOf(entity[j]) >= 0) return false;
+        else inEntity.push(entity[j]);
+    }
+
+    return true;
 }
 
 function getColumn(columnNo){
@@ -190,6 +198,7 @@ function getColumn(columnNo){
     }
     return returnColumn ;
 }
+
 
 function getLine(lineNo){
     let returnLine = [];
@@ -202,25 +211,18 @@ function getLine(lineNo){
 function getBigCell(bigCellNo){
     let returnBigCell = [];
     let counter = 0;
-    for(let j = 0; j < 3; j++){
-        for(let i = 0; i < 3; i++){
-            returnBigCell[counter] = board[i + (3 * (bigCellNo%3 - 1)) + j*9 + howManyDivides(bigCellNo-1,3)*27]; // ta minus jedynka
-            counter++
-            console.log(i + (3 * (bigCellNo%3 - 1)) + j*9 + howManyDivides(bigCellNo-1,3)*27);
-        }
-    }
-    
-    return returnBigCell;
+    let startingPoint = (bigCellNo%3) * 3 + howManyDivides(bigCellNo,3) * 27;
 
-    for(let j = howManyDivides(bigCellNo) * 27; j < 3 + howManyDivides(bigCellNo) * 27; j++){
-        for(let i = (bigCellNo%3 - 1) * 3; i < 3 + (bigCellNo%3 - 1) * 3; i++){
-            returnBigCell[counter] = board[i + j*9];
+    for(let i = 0; i < 27; i += 9){
+        for(let j = 0; j < 3; j++){
+            returnBigCell[counter] = board[startingPoint + j + i];
             counter++;
-            console.log(i + j*9);
+            document.getElementById('c' + (startingPoint + j + i)).style.backgroundColor = 'red';
         }
     }
-
+    return returnBigCell;
 }
+
 
 function lineShuffle(line){
     let lineCopy = line;
@@ -259,3 +261,13 @@ function fill3diagonal(){
         }
     }
 }
+
+
+//fillBoard();
+fill3diagonal();
+//console.log(board);
+setCells();
+console.log(getColumn(0));
+console.log(getLine(0));
+console.log(getBigCell(4));
+//console.log(checkAll(80));
