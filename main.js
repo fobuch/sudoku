@@ -40,8 +40,8 @@ document.addEventListener('keydown', function handleKeyPress(event) {
 
 function createBoard(){
     let returnBoard = [];
-    for(let i = 0; i < 81; i++){
-        returnBoard[i] = 0;
+    for(let i = 0; i < 9; i++){
+        returnBoard[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
     return returnBoard;
 }
@@ -92,3 +92,34 @@ function howManyDivides(number, divider){
 
     return counter;
 }
+
+function solveBoard(){
+
+}
+
+function fillBoard(){
+    let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    for(let i = 0; i < 9; i++){
+        board[i] = line;
+    }
+    //lineShuffle(line);
+    console.log(board);
+}
+fillBoard();
+
+function lineShuffle(line){
+    let lineCopy = line;
+    let tempLine = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for(let i = 0; i < 9; i++){
+        let rndNum = getRandomInt(0, lineCopy.length);
+        tempLine[i] = lineCopy[rndNum];
+        lineCopy.splice(rndNum, 1);
+    }
+    return tempLine;
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
