@@ -19,6 +19,7 @@ table{
     background-color: rgb(255, 255, 255);
     height: min-content;
     display: flex;
+    align-items: center;
 }
 #board{
     width: 900px;
@@ -53,29 +54,31 @@ table{
 }
 
 
-#numpad{
-    width: 900px;
-    height: 900px;
-    background-color: deepskyblue;
+#numpad {
+    width: 550px;
+    height: 750px;
 }
 
 .numpad {
     text-align: center;
-    font-size: 50px;
+    font-size: 175%;
     font-family: 'Comic Sans MS';
     border: 2.5px black solid;
     box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.3), inset 9px 9px 9px rgba(255, 255, 255, 0.2);
     user-select: none;
+    width: 138px;
+    background-color: deepskyblue;
 }
 
-    .numpad:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        cursor: pointer;
-        box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.4), inset 9px 9px 9px rgba(255, 255, 255, 0.45);
-    }
+.numpad:hover {
+    background-color: #39cdff;
+    cursor: pointer;
+    box-shadow: inset -5px -9px 8px rgba(45, 0, 45, 0.4), inset 9px 9px 9px rgba(255, 255, 255, 0.45);
+}
 
     .numpad:active {
         background-color: rgba(0, 0, 0, 0.1);
+        background-color: #1babff;
         cursor: pointer;
         box-shadow: inset 5px 9px 8px rgba(45, 0, 45, 0.4), inset -5px -9px 8px rgba(45, 0, 45, 0.4);
     }
@@ -94,6 +97,6 @@ select {
     line-height: inherit;
 }
 
-    select:hover {
-        cursor: pointer;
-    }
+select:hover {
+    cursor: pointer;
+}

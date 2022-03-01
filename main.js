@@ -17,10 +17,17 @@ cellMini.forEach(cell => {
 });
 
 numpad.forEach(num => {
+
     num.addEventListener('click', () => {
         let numId = parseInt(num.id.slice(11));
-        document.getElementById('c' + activeCell).innerText = numId;
-        board[activeCell] = numId;
+        if (numId == 0) {
+            document.getElementById('c' + activeCell).innerText = '';
+            board[activeCell] = 0;
+            console.log(board);
+        } else {
+            document.getElementById('c' + activeCell).innerText = numId;
+            board[activeCell] = numId;
+        }
     });
 });
 
