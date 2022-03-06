@@ -126,8 +126,9 @@ function howManyDivides(number, divider){
 function solveBoard(){
 
 }
-let counter = 0;
+
 function fillBoard(){
+    let counter = 0;
     let zero = board.indexOf(0);
     while(zero >= 0){
         board[zero] = getRandomInt(1,10);
@@ -136,15 +137,16 @@ function fillBoard(){
             board[zero] = getRandomInt(1,10);
             
             checkZero = checkAll(zero);
-            console.log('while'+counter);
-
+            counter++;
+            if(counter > 20){
+                for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
+                    board[i] = 0;
+                }
+                break;
+            }
         }
         zero = board.indexOf(0);
-        //setCells();
-        counter++;
-        console.log(counter);
-        //if(counter > 20) return false;
-        
+        counter = 0;
     }
 }
 
@@ -163,9 +165,6 @@ function checkAll(cellMiniNo){
             return true;
         }
     else{
-        // console.log('line ' + checkArray(getLine(lineNo)));
-        // console.log('column ' + checkArray(getColumn(columnNo)));
-        // console.log('big cell ' + checkArray(getBigCell(cellMiniNo)));
         return false;
     }
 }
@@ -247,7 +246,20 @@ function setCells(){
 }
 
 function fill3diagonal(){
-    for(let k = 0; k < 3; k++){
+    // for(let k = 0; k < 3; k++){
+    //     let linec = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    //     let lineCopy = linec;
+    //     lineCopy = lineShuffle(lineCopy);
+    //     for(let j = 0+k*30; j < 27+k*30; j += 9){
+    //         for(let i = 0; i < 3; i++){
+    //             board[j+i] = lineCopy[0];
+    //             lineCopy.splice(0,1);
+    //         }
+    //     }
+    // }
+
+
+    for(let k = 0; k < 1; k++){
         let linec = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         let lineCopy = linec;
         lineCopy = lineShuffle(lineCopy);
@@ -261,17 +273,8 @@ function fill3diagonal(){
 }
 
 
-//fillBoard();
 fill3diagonal();
-//console.log(board);
-setCells();
 
-//fillBoard();
-setCells();
-// for(let i = 0; i < 81; i++){
-//     console.log(checkAll(i));
-// }
-// let test = [0,0,1,5,4,3,0,0,0];
-// console.log(checkArray(test));
+fillBoard();
 
-// console.log(getBigCell(80));
+setCells();
