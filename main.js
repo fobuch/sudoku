@@ -138,15 +138,17 @@ function fillBoard(){
             
             checkZero = checkAll(zero);
             counter++;
-            if(counter > 20){
+            if(counter > 10){
                 for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
                     board[i] = 0;
                 }
                 break;
             }
+            console.log('zero: ' + zero + ' counter: ' + counter);
         }
         zero = board.indexOf(0);
         counter = 0;
+        setCells();
     }
 }
 
@@ -274,7 +276,7 @@ function fill3diagonal(){
 
 
 fill3diagonal();
-
+setCells();
 fillBoard();
 
 setCells();
