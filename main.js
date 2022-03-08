@@ -129,6 +129,7 @@ function solveBoard(){
 
 function fillBoard(){
     let counter = 0;
+    let eraseCounter = 0;
     let zero = board.indexOf(0);
     while(zero >= 0){
         board[zero] = getRandomInt(1,10);
@@ -139,15 +140,26 @@ function fillBoard(){
             checkZero = checkAll(zero);
             counter++;
             if(counter > 10){
-                for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
-                    board[i] = 0;
+                eraseCounter++;
+                if(eraseCounter > 20){
+                    for(let i = 0; i < 81; i++){
+                        board[i] = 0;
+                    }
+                    fill3diagonal();
+                }else{
+                    for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
+                        board[i] = 0;
+                    }
                 }
+
                 break;
             }
             console.log('zero: ' + zero + ' counter: ' + counter);
+            
         }
         zero = board.indexOf(0);
         counter = 0;
+        eraseCounter = 0;
         setCells();
     }
 }

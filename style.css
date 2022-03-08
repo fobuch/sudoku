@@ -15,11 +15,9 @@
 table{
     border-collapse:collapse;
 }
-#gameheader{
-    width: 100%;
-}
+
 #game{
-    background-color: green;
+    background-color: rgb(211, 202, 202);
     height: min-content;
     display: flex;
     align-items: center;
@@ -66,7 +64,7 @@ table{
 }
 
 table, tr, td{
-    border: 1px black solid;
+    user-select: none;
 }
 
 .numpad {
@@ -145,7 +143,6 @@ select:hover {
 html{
     background-color: rgb(211, 202, 202);
 }
-
 
 
 @media only screen and (max-width:1400px) {
