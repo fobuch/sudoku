@@ -1,6 +1,10 @@
 let board = createBoard();
-console.log(board);
+let boardgame = createBoard();
 let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let difficulty;
+difficulty = document.getElementById("difficulty");
+console.log(difficulty.value);
+
 
 const cellMini = document.querySelectorAll('.cell-mini');
 const numpad = document.querySelectorAll('.numpad');
@@ -27,7 +31,10 @@ numpad.forEach(num => {
             document.getElementById('c' + activeCell).innerText = '';
             board[activeCell] = 0;
             console.log(board);
-        } else {
+        } else if(numId == 10){
+            //if new game
+            newGame();
+        }else {
             document.getElementById('c' + activeCell).innerText = numId;
             board[activeCell] = numId;
         }
@@ -144,7 +151,7 @@ function fillBoard(){
                 }
                 break;
             }
-            console.log('zero: ' + zero + ' counter: ' + counter);
+            //console.log('zero: ' + zero + ' counter: ' + counter);
         }
         zero = board.indexOf(0);
         counter = 0;
@@ -171,6 +178,8 @@ function checkAll(cellMiniNo){
     }
 }
 
+// Komentarze, my bois? - KO
+// czemu to jest tak zrobione, że nie może sprawdzać też czy działa rozwiązanie? - KO
 function checkArray(entity){
     
     
@@ -274,9 +283,48 @@ function fill3diagonal(){
     }
 }
 
+function newGame(){
+    let pools = 0;
+    let pool;
+    setCells();
+    if(difficulty.value=="Easy"){
+        pools = 20;
+    }else if(difficulty.value=="Medium"){
+        pools = 42;
+    }else if(difficulty.value=="Hard"){
+        pools = 66;
+    }else{
+        console.log("Congrats. You broke it. FUDGE.");
+    }
+    while(pools>0){
+        pool = Math.floor((Math.random()*81));
+        if(document.getElementById('c'+ (pool)).innerText != ""){
+            document.getElementById('c'+(pool)).innerText = "";
+            pools--;
+        }
+    }
+}
+
+// function checkWin(){
+//     let columnNo = cellMiniNo%9;
+//     let lineNo = howManyDivides(cellMiniNo,9);
+    
+
+//     if(checkArray(getLine(lineNo)) 
+//         && checkArray(getColumn(columnNo)) 
+//         && checkArray(getBigCell(cellMiniNo))){
+//             return true;
+//         }
+//     else{
+//         return false;
+//     }
+// }
+
+
 
 fill3diagonal();
 setCells();
 fillBoard();
 
 setCells();
+
