@@ -85,7 +85,7 @@ table, tr, td{
     border: 2px solid black;
 }
 
-#numpad-cell0, #newGame{
+#numpad-cell0, #numpad-cell10{
     width: 96.5%;
     height: 50%;
     padding-bottom: 3%;
