@@ -129,7 +129,8 @@ function solveBoard(){
 
 function fillBoard(){
     let counter = 0;
-    let eraseCounter = 0;
+    // let eraseCounter = 0;
+    let lineErase = [0,0,0,0,0,0,0,0,0];
     let zero = board.indexOf(0);
     while(zero >= 0){
         board[zero] = getRandomInt(1,10);
@@ -140,22 +141,22 @@ function fillBoard(){
             checkZero = checkAll(zero);
             counter++;
             if(counter > 10){
-                eraseCounter++;
-                if(eraseCounter > 5){
-                    for(let i = 0; i < 81; i++){
-                        board[i] = 0;
-                    }
-                    fill3diagonal();
-                    console.log('Zresetowano plansze');
-                }else{
-                    for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
-                        board[i] = 0;
-                    }
-                    console.log('Zresetowano linie');
-                }
-                // for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
-                //     board[i] = 0;
+                
+                // if(eraseCounter > 5){
+                //     for(let i = 0; i < 81; i++){
+                //         board[i] = 0;
+                //     }
+                //     fill3diagonal();
+                //     console.log('Zresetowano plansze');
+                // }else{
+                //     for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
+                //         board[i] = 0;
+                //     }
+                //     console.log('Zresetowano linie');
                 // }
+                for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
+                    board[i] = 0;
+                }
                 break;
             }
             console.log('zero: ' + zero + ' counter: ' + counter);
@@ -163,7 +164,7 @@ function fillBoard(){
         }
         zero = board.indexOf(0);
         counter = 0;
-        eraseCounter = 0;
+        
         setCells();
     }
 }
