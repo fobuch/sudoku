@@ -133,46 +133,27 @@ function howManyDivides(number, divider){
     return counter;
 }
 
-function solveBoard(){
-
-}
 
 function fillBoard(){
     let startTime = performance.now();
     let counter = 0;
-    // let eraseCounter = 0;
-    let lineErase = [0,0,0,0,0,0,0,0,0];
+
+    fill3diagonal();
     let zero = board.indexOf(0);
     while(zero >= 0){
         
         board[zero] = getRandomInt(1,10);
-        let checkZero = checkAll(zero);
+        let checkZero = checkAll(zero, board);
         while(!checkZero){
             board[zero] = getRandomInt(1,10);
-            
-            checkZero = checkAll(zero);
+            checkZero = checkAll(zero, board);
             counter++;
             if(counter > 10){
-                
-                // if(eraseCounter > 5){
-                //     for(let i = 0; i < 81; i++){
-                //         board[i] = 0;
-                //     }
-                //     fill3diagonal();
-                //     console.log('Zresetowano plansze');
-                // }else{
-                //     for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
-                //         board[i] = 0;
-                //     }
-                //     console.log('Zresetowano linie');
-                // }
                 for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
                     board[i] = 0;
                 }
                 break;
             }
-            //console.log('zero: ' + zero + ' counter: ' + counter);
-            
         }
         let endTime = performance.now();
         if(endTime - startTime > 400){
@@ -187,22 +168,17 @@ function fillBoard(){
         counter = 0;
         
     }
-    
-    
 }
 
 
-
-
-
-function checkAll(cellMiniNo){
+function checkAll(cellMiniNo, arr){
     let columnNo = cellMiniNo%9;
     let lineNo = howManyDivides(cellMiniNo,9);
     
 
-    if(checkArray(getLine(lineNo)) 
-        && checkArray(getColumn(columnNo)) 
-        && checkArray(getBigCell(cellMiniNo))){
+    if(checkArray(getLine(lineNo, arr)) 
+        && checkArray(getColumn(columnNo, arr)) 
+        && checkArray(getBigCell(cellMiniNo, arr))){
             return true;
         }
     else{
@@ -230,30 +206,30 @@ function checkArray(entity){
     return true;
 }
 
-function getColumn(columnNo){
+function getColumn(columnNo, arr){
     let returnColumn = [];
     for(let i = 0; i < 9; i++){
-        returnColumn[i] = board[columnNo + i * 9];
+        returnColumn[i] = arr[columnNo + i * 9];
     }
     return returnColumn ;
 }
 
 
-function getLine(lineNo){
+function getLine(lineNo, arr){
     let returnLine = [];
     for(let i = 0; i < 9; i++){
-        returnLine[i] = board[i + lineNo * 9];
+        returnLine[i] = arr[i + lineNo * 9];
     }
     return returnLine;
 }
 
 
-function getBigCell(cellId){
+function getBigCell(cellId, arr){
     let returnLine = [];
     let counter = 0;
     for(let j = cellId - (howManyDivides(cellId,9) % 3) * 9; j < (cellId - (howManyDivides(cellId,9) % 3) * 9) + 27; j += 9){
         for(let i = j - (j % 3); i < j - (j % 3) +3; i++){
-            returnLine[counter] = board[i];
+            returnLine[counter] = arr[i];
             counter++;
         }
     }
@@ -282,7 +258,11 @@ function getRandomInt(min, max) {
 
 function setCells(){
     for(let i = 0; i < 81; i++){
-        document.getElementById('c'+i).innerText = board[i];
+        if(board[i] == 0){
+            document.getElementById('c'+i).innerText = '';
+        }else{
+            document.getElementById('c'+i).innerText = board[i];
+        }
     }
 }
 
@@ -316,7 +296,7 @@ function fill3diagonal(){
 function newGame(){
     let pools = 0;
     let pool;
-    setCells();
+
     if(difficulty.value=="Easy"){
         pools = 20;
     }else if(difficulty.value=="Medium"){
@@ -326,18 +306,96 @@ function newGame(){
     }else{
         console.log("Congrats. You broke it. FUDGE.");
     }
+    //pools = 80;
     while(pools>0){
         pool = Math.floor((Math.random()*81));
-        if(document.getElementById('c'+ (pool)).innerText != ""){
-            document.getElementById('c'+(pool)).innerText = "";
+        if(board[pool] != 0){
+            board[pool] = 0;
             pools--;
         }
     }
+    setCells();
 }
 
+let tempSolved = [];
 
-fill3diagonal();
+function solveBoard(arr){
+    let copyOfBoard = arr.concat();
+    let zeroes = [];
+
+    for(let i = 0; i < 81; i++){
+        if(copyOfBoard[i] == 0) zeroes.push(i);
+    }
+
+    for(let i = 0; i < zeroes.length; i++){
+        let counter = 0;
+        for(let j = 1; j < 10; j++){
+            copyOfBoard[zeroes[i]] = j;
+            if(checkAll(zeroes[i], copyOfBoard)){
+                tempSolved.push(j);
+                return solveBoard(copyOfBoard);
+            }
+            else{
+                counter++;
+            }
+        }
+        if(counter == 9){
+            return false;
+        }
+    }
+    return true;
+    
+}
+function solveBoard2(arr){
+    let copyOfBoard = arr.concat();
+    let zeroes = [];
+
+    for(let i = 0; i < 81; i++){
+        if(copyOfBoard[i] == 0) zeroes.push(i);
+    }
+
+    let firstZero = zeroes[0];
+
+    //for(let i = 0; i < zeroes.length; i++){
+        let counter = 0;
+        for(let j = 1; j < 10; j++){
+            copyOfBoard[firstZero] = j;
+
+            let checkWholeBoard = true;
+            for(let i = 0; i < 81; i++){
+                if(!checkAll(i,copyOfBoard)) checkWholeBoard = false;
+            }
+            if(checkWholeBoard){
+                tempSolved.push(j);
+                return solveBoard(copyOfBoard);
+            }
+            else{
+                counter++;
+            }
+        }
+        if(counter == 9){
+            return false;
+        }else{
+    //}
+    return true;
+        }
+    
+}
 
 fillBoard();
-
 setCells();
+
+let solvedBoard = board.concat();
+
+
+newGame();
+console.log(solveBoard(board));
+console.log('end');
+console.log('solvedBoard' + solvedBoard);
+console.log(tempSolved);
+
+let zerls = [];
+for(let i = 0; i < 81; i++){
+    if(board[i] == 0) zerls.push(solvedBoard[i]);
+}
+console.log('zeroes ' + zerls);
