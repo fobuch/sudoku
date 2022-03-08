@@ -141,17 +141,21 @@ function fillBoard(){
             counter++;
             if(counter > 10){
                 eraseCounter++;
-                if(eraseCounter > 20){
+                if(eraseCounter > 5){
                     for(let i = 0; i < 81; i++){
                         board[i] = 0;
                     }
                     fill3diagonal();
+                    console.log('Zresetowano plansze');
                 }else{
                     for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
                         board[i] = 0;
                     }
+                    console.log('Zresetowano linie');
                 }
-
+                // for(let i = howManyDivides(zero, 9) * 9; i < howManyDivides(zero, 9) * 9 + 9; i++){
+                //     board[i] = 0;
+                // }
                 break;
             }
             console.log('zero: ' + zero + ' counter: ' + counter);
