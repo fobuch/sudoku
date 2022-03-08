@@ -2,6 +2,10 @@ let board = createBoard();
 console.log(board);
 let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+let difficulty;
+difficulty = document.getElementById("difficulty");
+let btimer = false;
+
 const cellMini = document.querySelectorAll('.cell-mini');
 const numpad = document.querySelectorAll('.numpad');
 
@@ -11,7 +15,10 @@ activeCellBackground(activeCell, true);
 cellMini.forEach(cell => {
     cell.addEventListener('click', () => {
         let id = parseInt(cell.id.slice(1));
-        
+        if(!btimer){
+            btimer = true;
+            timer();
+        }
         activeCellBackground(activeCell, false);
         activeCell = id;
         activeCellBackground(activeCell, true);
@@ -27,7 +34,10 @@ numpad.forEach(num => {
             document.getElementById('c' + activeCell).innerText = '';
             board[activeCell] = 0;
             console.log(board);
-        } else {
+        }else if(numId == 10){
+            newGame();
+        }
+         else {
             document.getElementById('c' + activeCell).innerText = numId;
             board[activeCell] = numId;
         }
@@ -47,24 +57,24 @@ document.addEventListener('keydown', function handleKeyPress(event) {
 });
 
 function timer(){
-    var minutes=0;
-    var seconds=0;
-if(btimer){
-    var timer = setInterval(function() {
+    let minutes=0;
+    let seconds=0;
+    if(btimer){
+        let timer = setInterval(function() {
+            
+            seconds++;
+            if(seconds>59){
+                seconds=0;
+                minutes++;
+            }
         
-        seconds++;
-        if(seconds>59){
-            seconds=0;
-            minutes++;
-        }
-    
-        if(seconds <10){
-            document.getElementById("timer").innerHTML = minutes + ":0"+ seconds;
-        }else{
-            document.getElementById("timer").innerHTML = minutes + ":"+ seconds;
-        }
-    }, 1000);
-}
+            if(seconds <10){
+                document.getElementById("timer").innerHTML = minutes + ":0"+ seconds;
+            }else{
+                document.getElementById("timer").innerHTML = minutes + ":"+ seconds;
+            }
+        }, 1000);
+    }
 }
 
 
@@ -128,11 +138,13 @@ function solveBoard(){
 }
 
 function fillBoard(){
+    let startTime = performance.now();
     let counter = 0;
     // let eraseCounter = 0;
     let lineErase = [0,0,0,0,0,0,0,0,0];
     let zero = board.indexOf(0);
     while(zero >= 0){
+        
         board[zero] = getRandomInt(1,10);
         let checkZero = checkAll(zero);
         while(!checkZero){
@@ -159,14 +171,24 @@ function fillBoard(){
                 }
                 break;
             }
-            console.log('zero: ' + zero + ' counter: ' + counter);
+            //console.log('zero: ' + zero + ' counter: ' + counter);
             
         }
+        let endTime = performance.now();
+        if(endTime - startTime > 400){
+            startTime = performance.now();
+            for(let i = 0; i < 81; i++){
+                board[i] = 0;
+            }
+            fill3diagonal();
+        }
+        console.log(`Fill board took ${endTime - startTime} milliseconds`);
         zero = board.indexOf(0);
         counter = 0;
         
-        setCells();
     }
+    
+    
 }
 
 
@@ -291,9 +313,31 @@ function fill3diagonal(){
     }
 }
 
+function newGame(){
+    let pools = 0;
+    let pool;
+    setCells();
+    if(difficulty.value=="Easy"){
+        pools = 20;
+    }else if(difficulty.value=="Medium"){
+        pools = 42;
+    }else if(difficulty.value=="Hard"){
+        pools = 66;
+    }else{
+        console.log("Congrats. You broke it. FUDGE.");
+    }
+    while(pools>0){
+        pool = Math.floor((Math.random()*81));
+        if(document.getElementById('c'+ (pool)).innerText != ""){
+            document.getElementById('c'+(pool)).innerText = "";
+            pools--;
+        }
+    }
+}
+
 
 fill3diagonal();
-setCells();
+
 fillBoard();
 
 setCells();
