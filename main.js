@@ -45,6 +45,7 @@ numpad.forEach(num => {
             board[activeCell] = numId;
             }
         }
+        if(checkIfCompleted) alert('Wygrałes');
     });
 });
 
@@ -325,7 +326,7 @@ function deleteSpaces(){
     let pool;
 
     if(difficulty.value=="Easy"){
-        pools = 43;
+        pools = 1;
     }else if(difficulty.value=="Medium"){
         pools = 50;
     }else if(difficulty.value=="Hard"){
