@@ -1,9 +1,9 @@
 let board = createBoard();
-console.log(board);
+
 let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-let difficulty;
-difficulty = document.getElementById("difficulty");
+let lockedCells = [];
+
 let btimer = false;
 
 const cellMini = document.querySelectorAll('.cell-mini');
@@ -31,28 +31,34 @@ numpad.forEach(num => {
     num.addEventListener('click', () => {
         let numId = parseInt(num.id.slice(11));
         if (numId == 0) {
-            document.getElementById('c' + activeCell).innerText = '';
-            board[activeCell] = 0;
-            console.log(board);
+            if(lockedCells.indexOf(activeCell) == -1){
+                document.getElementById('c' + activeCell).innerText = '';
+                board[activeCell] = 0;
+                console.log(board);
+            }
         }else if(numId == 10){
             newGame();
         }
-         else {
+        else {
+            if(lockedCells.indexOf(activeCell) == -1){
             document.getElementById('c' + activeCell).innerText = numId;
             board[activeCell] = numId;
+            }
         }
     });
 });
 
 document.addEventListener('keydown', function handleKeyPress(event) {
-    if(Number(event.key) > 0 && Number(event.key) <= 9){
-        document.getElementById('c'+activeCell).innerText = event.key;
-        board[activeCell] = Number(event.key);
-        console.log(board);
-    }else if(event.key == 'Backspace'){
-        document.getElementById('c'+activeCell).innerText = '';
-        board[activeCell] = 0;
-        console.log(board);
+    if(lockedCells.indexOf(activeCell) == -1){
+        if(Number(event.key) > 0 && Number(event.key) <= 9){
+            document.getElementById('c'+activeCell).innerText = event.key;
+            board[activeCell] = Number(event.key);
+            console.log(board);
+        }else if(event.key == 'Backspace'){
+            document.getElementById('c'+activeCell).innerText = '';
+            board[activeCell] = 0;
+            console.log(board);
+        }
     }
 });
 
@@ -187,9 +193,6 @@ function checkAll(cellMiniNo, arr){
 }
 
 function checkArray(entity){
-    
-    
-
     let entityNoZero = [];
     for(let i = 0; i < entity.length; i++){
         if(entity[i] != 0) entityNoZero.push(entity[i]);
@@ -293,16 +296,40 @@ function fill3diagonal(){
     }
 }
 
+let solvedBoard;
+
 function newGame(){
+    board = createBoard();
+    fillBoard();
+    
+    solvedBoard = board.concat();
+
+    deleteSpaces();
+
+    while(solveBoard(board)){
+        newGame();
+    }
+    
+    for(let i = 0; i < 81; i++){
+        if(board[i] != 0) lockedCells.push(i);
+    }
+    setCells();
+    console.log(lockedCells);
+    return 0;
+    
+}
+
+function deleteSpaces(){
+    let difficulty= document.getElementById("difficulty");
     let pools = 0;
     let pool;
 
     if(difficulty.value=="Easy"){
-        pools = 20;
+        pools = 43;
     }else if(difficulty.value=="Medium"){
-        pools = 42;
+        pools = 50;
     }else if(difficulty.value=="Hard"){
-        pools = 66;
+        pools = 53;
     }else{
         console.log("Congrats. You broke it. FUDGE.");
     }
@@ -314,10 +341,8 @@ function newGame(){
             pools--;
         }
     }
-    setCells();
 }
 
-let tempSolved = [];
 
 function solveBoard(arr){
     let copyOfBoard = arr.concat();
@@ -332,7 +357,7 @@ function solveBoard(arr){
         for(let j = 1; j < 10; j++){
             copyOfBoard[zeroes[i]] = j;
             if(checkAll(zeroes[i], copyOfBoard) && solvedBoard[zeroes[i]] != copyOfBoard[zeroes[i]]){
-                tempSolved.push(j);
+                //tempSolved.push(j);
                 let dalej = solveBoard(copyOfBoard);
                 if(!dalej) continue;
                 else return true;
@@ -349,48 +374,12 @@ function solveBoard(arr){
     
 }
 
-function solveBoardCopy(arr){
-    let copyOfBoard = arr.concat();
-    let zeroes = [];
-
+function checkIfCompleted(){
     for(let i = 0; i < 81; i++){
-        if(copyOfBoard[i] == 0) zeroes.push(i);
-    }
-
-    for(let i = 0; i < zeroes.length; i++){
-        let counter = 0;
-        for(let j = 1; j < 10; j++){
-            copyOfBoard[zeroes[i]] = j;
-            if(checkAll(zeroes[i], copyOfBoard)){
-                tempSolved.push(j);
-                return solveBoard(copyOfBoard);
-            }
-            else{
-                counter++;
-            }
-        }
-        if(counter == 9){
-            return false;
-        }
+        if(board[i] == 0) return false;
     }
     return true;
-    
 }
-
-fillBoard();
-setCells();
-
-let solvedBoard = board.concat();
-
 
 newGame();
-console.log(solveBoard(board));
-console.log('end');
-console.log('solvedBoard' + solvedBoard);
-console.log(tempSolved);
 
-let zerls = [];
-for(let i = 0; i < 81; i++){
-    if(board[i] == 0) zerls.push(solvedBoard[i]);
-}
-console.log('zeroes ' + zerls);
