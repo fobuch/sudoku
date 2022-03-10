@@ -331,6 +331,36 @@ function solveBoard(arr){
         let counter = 0;
         for(let j = 1; j < 10; j++){
             copyOfBoard[zeroes[i]] = j;
+            if(checkAll(zeroes[i], copyOfBoard) && solvedBoard[zeroes[i]] != copyOfBoard[zeroes[i]]){
+                tempSolved.push(j);
+                let dalej = solveBoard(copyOfBoard);
+                if(!dalej) continue;
+                else return true;
+            }
+            else{
+                counter++;
+            }
+        }
+        if(counter == 9){
+            return false;
+        }
+    }
+    return true;
+    
+}
+
+function solveBoardCopy(arr){
+    let copyOfBoard = arr.concat();
+    let zeroes = [];
+
+    for(let i = 0; i < 81; i++){
+        if(copyOfBoard[i] == 0) zeroes.push(i);
+    }
+
+    for(let i = 0; i < zeroes.length; i++){
+        let counter = 0;
+        for(let j = 1; j < 10; j++){
+            copyOfBoard[zeroes[i]] = j;
             if(checkAll(zeroes[i], copyOfBoard)){
                 tempSolved.push(j);
                 return solveBoard(copyOfBoard);
@@ -344,41 +374,6 @@ function solveBoard(arr){
         }
     }
     return true;
-    
-}
-function solveBoard2(arr){
-    let copyOfBoard = arr.concat();
-    let zeroes = [];
-
-    for(let i = 0; i < 81; i++){
-        if(copyOfBoard[i] == 0) zeroes.push(i);
-    }
-
-    let firstZero = zeroes[0];
-
-    //for(let i = 0; i < zeroes.length; i++){
-        let counter = 0;
-        for(let j = 1; j < 10; j++){
-            copyOfBoard[firstZero] = j;
-
-            let checkWholeBoard = true;
-            for(let i = 0; i < 81; i++){
-                if(!checkAll(i,copyOfBoard)) checkWholeBoard = false;
-            }
-            if(checkWholeBoard){
-                tempSolved.push(j);
-                return solveBoard(copyOfBoard);
-            }
-            else{
-                counter++;
-            }
-        }
-        if(counter == 9){
-            return false;
-        }else{
-    //}
-    return true;
-        }
     
 }
 
