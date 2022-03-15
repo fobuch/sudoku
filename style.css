@@ -1,8 +1,8 @@
 *{
     padding:0;
     margin:0;
-    /*zmiana*/
-
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 #all{
     width: 100vw;
@@ -26,16 +26,17 @@ table{
 }
 #board{
     background-color: white;
-    width: 900px;
-    height: 900px;
+    width: 675px;
+    height: 675px;
     border: 2px solid black;
 }
 .line{
     width: 100%;
-    height: 300px;
+    height: 225px;
+    background-color: green;
 }
 .cell{
-    width: 300px;
+    width: 225px;
     height: 100%;
 }
 .table-mini{
@@ -46,15 +47,15 @@ table{
 }
 .line-mini{
     width: 100%;
-    height: 100px;
+    height: 75px;
 }
 .cell-mini{
-    width: 100px;
+    width: 75px;
     height: 100%;
     border: 1px solid black;
     text-align: center;
     background-color: white;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 
@@ -71,7 +72,7 @@ table, tr, td{
 .numpad {
     text-align: center;
     font-size: 250%;
-    font-family: 'Comic Sans MS';
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,17 +147,39 @@ html{
 }
 
 
-@media only screen and (max-width:1400px) {
-    #all{
-        align-items: baseline;
+@media only screen and (max-width: 900px) {
+    body{
+        overflow-y: hidden;
     }
-    #game {
+    #board{
+        width: calc(100vw - 50px);
+        height: calc(100vw - 50px);    
 
+    }
+    .line{
+        width: 100%;
+        height: calc((100vw - 50px) / 3);
+    }
+    .cell{
+        height: 100%;
+        width: calc((100vw - 50px) / 3);
+    }
+    .table-mini{
+        width: 100%;
+        height: 100%;
+    }
+    .line-mini{
+        height: calc((100vw - 50px) / 9);
+        width: 100%;
+    }
+    .cell-mini{
+        width: calc((100vw - 50px) / 9);
+        height: 100%;
+        font-size: 5.5vw;
+    }
+    
+    #game{
         flex-direction: column;
-        align-content: flex-end;
-        
     }
-    #numpad {
-        margin-top: 5%;
-    }
-  }
+    
+} 

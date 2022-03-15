@@ -4,7 +4,12 @@ let line = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 let lockedCells = [];
 
-let btimer = false;
+let solvedBoard;
+
+
+let minutes=0;
+let seconds=0;
+let time;
 
 const cellMini = document.querySelectorAll('.cell-mini');
 const numpad = document.querySelectorAll('.numpad');
@@ -15,14 +20,11 @@ activeCellBackground(activeCell, true);
 cellMini.forEach(cell => {
     cell.addEventListener('click', () => {
         let id = parseInt(cell.id.slice(1));
-        if(!btimer){
-            btimer = true;
-            timer();
-        }
+        
         activeCellBackground(activeCell, false);
         activeCell = id;
         activeCellBackground(activeCell, true);
-        console.log(activeCell);
+        //console.log(activeCell);
       });
 });
 
@@ -34,7 +36,7 @@ numpad.forEach(num => {
             if(lockedCells.indexOf(activeCell) == -1){
                 document.getElementById('c' + activeCell).innerText = '';
                 board[activeCell] = 0;
-                console.log(board);
+                //console.log(board);
             }
         }else if(numId == 10){
             newGame();
@@ -45,7 +47,13 @@ numpad.forEach(num => {
             board[activeCell] = numId;
             }
         }
-        if(checkIfCompleted) alert('Wygrałes');
+        if(checkIfCompleted()){
+            //btimer = false;
+            clearInterval(time);
+            if(confirm('Wygrałeś!\nZajęło Ci to ' + minutes + ' minut i ' + seconds + 'sekund.\n\nCzy chcesz rozpocząć nową grę?')){
+                newGame();
+            }
+        } 
     });
 });
 
@@ -54,34 +62,34 @@ document.addEventListener('keydown', function handleKeyPress(event) {
         if(Number(event.key) > 0 && Number(event.key) <= 9){
             document.getElementById('c'+activeCell).innerText = event.key;
             board[activeCell] = Number(event.key);
-            console.log(board);
+            //console.log(board);
         }else if(event.key == 'Backspace'){
             document.getElementById('c'+activeCell).innerText = '';
             board[activeCell] = 0;
-            console.log(board);
+            //console.log(board);
         }
+        if(checkIfCompleted()){
+            //btimer = false;
+            clearInterval(time);
+            if(confirm('Wygrałeś!\nZajęło Ci to ' + minutes + ' minut i ' + seconds + ' sekund.\n\nCzy chcesz rozpocząć nową grę?')){
+                newGame();
+            }
+        } 
     }
 });
 
 function timer(){
-    let minutes=0;
-    let seconds=0;
-    if(btimer){
-        let timer = setInterval(function() {
-            
-            seconds++;
-            if(seconds>59){
-                seconds=0;
-                minutes++;
-            }
-        
-            if(seconds <10){
-                document.getElementById("timer").innerHTML = minutes + ":0"+ seconds;
-            }else{
-                document.getElementById("timer").innerHTML = minutes + ":"+ seconds;
-            }
-        }, 1000);
+    seconds++;
+    if(seconds>59){
+        seconds=0;
+        minutes++;
     }
+
+    if(seconds <10){
+        document.getElementById("timer").innerHTML = minutes + ":0"+ seconds;
+    }else{
+        document.getElementById("timer").innerHTML = minutes + ":"+ seconds;
+    }     
 }
 
 
@@ -170,7 +178,7 @@ function fillBoard(){
             }
             fill3diagonal();
         }
-        console.log(`Fill board took ${endTime - startTime} milliseconds`);
+        //console.log(`Fill board took ${endTime - startTime} milliseconds`);
         zero = board.indexOf(0);
         counter = 0;
         
@@ -271,19 +279,6 @@ function setCells(){
 }
 
 function fill3diagonal(){
-    // for(let k = 0; k < 3; k++){
-    //     let linec = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    //     let lineCopy = linec;
-    //     lineCopy = lineShuffle(lineCopy);
-    //     for(let j = 0+k*30; j < 27+k*30; j += 9){
-    //         for(let i = 0; i < 3; i++){
-    //             board[j+i] = lineCopy[0];
-    //             lineCopy.splice(0,1);
-    //         }
-    //     }
-    // }
-
-
     for(let k = 0; k < 1; k++){
         let linec = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         let lineCopy = linec;
@@ -297,9 +292,16 @@ function fill3diagonal(){
     }
 }
 
-let solvedBoard;
+
 
 function newGame(){
+    clearInterval(time);
+    minutes = 0;
+    seconds = -1;
+    timer();
+
+    lockedCells = [];
+
     board = createBoard();
     fillBoard();
     
@@ -315,8 +317,9 @@ function newGame(){
         if(board[i] != 0) lockedCells.push(i);
     }
     setCells();
-    console.log(lockedCells);
-    return 0;
+    
+    
+    time = setInterval(timer, 1000);
     
 }
 
@@ -326,15 +329,13 @@ function deleteSpaces(){
     let pool;
 
     if(difficulty.value=="Easy"){
-        pools = 1;
+        pools = 40;
     }else if(difficulty.value=="Medium"){
         pools = 50;
     }else if(difficulty.value=="Hard"){
         pools = 53;
-    }else{
-        console.log("Congrats. You broke it. FUDGE.");
     }
-    //pools = 80;
+
     while(pools>0){
         pool = Math.floor((Math.random()*81));
         if(board[pool] != 0){
@@ -377,7 +378,9 @@ function solveBoard(arr){
 
 function checkIfCompleted(){
     for(let i = 0; i < 81; i++){
-        if(board[i] == 0) return false;
+        if(board[i] != solvedBoard[i]){
+            return false;
+        }
     }
     return true;
 }
