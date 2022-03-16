@@ -23,12 +23,13 @@ table{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: lightsalmon;
 }
 
 #header div{
-    background-color: lightseagreen;
-    border: 1px red solid;
+    background-color: rgb(236, 236, 236);
+    border-radius: 17px;
+    padding: 5px;
+    margin: 10px;
 }
 
 #game{
@@ -38,8 +39,11 @@ table{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: lightgreen;
+    background-color: white;
+    padding: 25px;
     width: 1160px;
+    border-radius: 50px;
+    margin: 20px;
 }
 
 #reszta{
@@ -55,7 +59,6 @@ table{
 .line{
     width: 100%;
     height: 225px;
-    background-color: green;
 }
 .cell{
     width: 225px;
@@ -85,13 +88,10 @@ table{
     width: 450px;
     height: 675px;
     margin-left: 2.5%;
-    background-color: lightskyblue;
-    border: 1px solid black;
 }
 
 #numpad table, #numpad tr, #numpad td{
     user-select: none;
-    border: 1px solid black;
 }
 
 #numpad tr{
@@ -117,12 +117,8 @@ table{
     width: 90%;
     height: 90%;
     margin:auto;
-
-    /*background-color: rgb(173, 255, 221);*/
     background-color: rgb(61, 178, 255);
     border-radius: 20%;
-    
-
 }
 
 #numpad-cell0, #numpad-cell10{
@@ -134,13 +130,12 @@ table{
 
 
 .numpad:hover {
-    background-color: #c8ffdd;
+    background-color: #83c0f0;
     cursor: pointer;
 }
 
 .numpad:active {
-    background-color: rgba(0, 0, 0, 0.1);
-    background-color: #94f1d2;
+    background-color: #3394dd;
     cursor: pointer;
 }
 
@@ -223,13 +218,12 @@ html{
         font-size: 3vw;
     }
 
-    
+    #header{
+        font-size: 1.5vw;
+    }
 } 
 
-@media only screen and (max-width: 700px) {
-    /* body{
-        overflow-y: hidden;
-    } */
+/* @media only screen and (max-width: 700px) {
     #all{
         padding-top: 0;
     }
@@ -274,4 +268,4 @@ html{
     
     
 
-} 
+}  */
