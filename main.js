@@ -334,7 +334,9 @@ function deleteSpaces(){
         pools = 50;
     }else if(difficulty.value=="Hard"){
         pools = 53;
-    }
+    }else if(difficulty.value=="Test"){
+        pools = 2;
+    }
 
     while(pools>0){
         pool = Math.floor((Math.random()*81));
