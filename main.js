@@ -329,7 +329,7 @@ function deleteSpaces(){
     let pool;
 
     if(difficulty.value=="Easy"){
-        pools = 1;
+        pools = 41;
     }else if(difficulty.value=="Medium"){
         pools = 50;
     }else if(difficulty.value=="Hard"){
